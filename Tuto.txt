@@ -1,0 +1,5 @@
+docker build -t maison-db .
+docker run -d -p 5433:5432 --name maison-db maison-db
+
+docker exec -it maison-db bash
+psql -U maison_user -d maison_db
