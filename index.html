@@ -24,8 +24,51 @@
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
 
-        // Ajouter un marqueur
-        L.marker([-18.8792, 47.5079]).addTo(map)
+        // Fonction pour créer le formulaire HTML avec les coordonnées
+        function createFormHtml(lat, lng) {
+            return `
+                <form>
+                    <label for="titre">Titre :</label><br>
+                    <input type="text" id="titre" name="titre" value="maison"><br>
+                    <label for="nom">Nom :</label><br>
+                    <input type="text" id="nom" name="nom"><br>
+                    <label>Latitude :</label><br>
+                    <span id="latitude">${lat}</span><br>
+                    <label>Longitude :</label><br>
+                    <span id="longitude">${lng}</span><br>
+                    <label for="typeTafo">Type Tafo :</label><br>
+                    <select id="typeTafo" name="typeTafo">
+                        <option value="type1">Type 1</option>
+                        <option value="type2">Type 2</option>
+                    </select><br>
+                    <label for="typeRindrina">Type Rindrina :</label><br>
+                    <select id="typeRindrina" name="typeRindrina">
+                        <option value="type1">Type 1</option>
+                        <option value="type2">Type 2</option>
+                    </select><br>
+                    <label for="longueur">Longueur :</label><br>
+                    <input type="text" id="longueur" name="longueur"><br>
+                    <label for="largeur">Largeur :</label><br>
+                    <input type="text" id="largeur" name="largeur"><br>
+                    <label for="etages">Nombre d'étages :</label><br>
+                    <input type="text" id="etages" name="etages"><br>
+                    <input type="submit" value="Insert">
+                </form>
+            `;
+        }
+
+        // Ajouter un événement de clic sur la carte
+        map.on('click', function(e) {
+            var lat = e.latlng.lat;
+            var lng = e.latlng.lng;
+            var formHtml = createFormHtml(lat, lng);
+
+            // Ajouter un marqueur à l'endroit cliqué
+            var marker = L.marker([lat, lng]).addTo(map);
+
+            // Ajouter une popup avec le formulaire
+            marker.bindPopup(formHtml).openPopup();
+        });
     </script>
 </body>
 </html>
